@@ -1,3 +1,11 @@
+# RLBot specific
+RefreshEnv.cmd
+requirements.txt
+rlbot.cfg
+run.bat
+run-gui.bat
+run.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
