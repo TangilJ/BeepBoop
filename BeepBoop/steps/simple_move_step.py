@@ -1,9 +1,9 @@
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
-from .base_step import BaseStep
-from utils.physics_object import PhysicsObject
-from utils import steering
-from bot_math.Vector3 import Vector3
+from BeepBoop.steps.base_step import BaseStep
+from BeepBoop.utils.physics_object import PhysicsObject
+from BeepBoop.utils import steering
+from BeepBoop.bot_math.Vector3 import Vector3
 
 
 class SimpleMoveStep(BaseStep):

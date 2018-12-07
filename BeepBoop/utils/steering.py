@@ -1,4 +1,4 @@
-from bot_math.Vector3 import Vector3
+from BeepBoop.bot_math.Vector3 import Vector3
 import math
 
 
