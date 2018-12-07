@@ -1,6 +1,8 @@
 import rlbot.utils.structures.game_data_struct as game_data_struct
 import math
 from typing import Tuple, Optional, Union
+from RLUtilities.LinearAlgebra import vec3
+
 
 Number = Union[int, float]
 VectorArgument = Union[Number, game_data_struct.Vector3, game_data_struct.Rotator]
@@ -57,6 +59,9 @@ class Vector3:
     def normalised(self) -> "Vector3":
         mag = self.magnitude()
         return Vector3(self.x / mag, self.y / mag, self.z / mag)
+
+    def to_rlutilities_vec3(self) -> vec3:
+        return vec3(self.x, self.y, self.z)
 
     def to_tuple(self) -> Tuple[Number, Number, Number]:
         return self.x, self.y, self.z
