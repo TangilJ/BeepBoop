@@ -6,6 +6,9 @@ run.bat
 run-gui.bat
 run.py
 
+# IntelliJ / PyCharm
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
