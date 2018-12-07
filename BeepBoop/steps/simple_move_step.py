@@ -12,10 +12,10 @@ class SimpleMoveStep(BaseStep):
         self.target: Vector3 = target
 
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
-        bot = PhysicsObject(packet.game_cars[self.agent.index].physics)
-        steer = steering.simple_aim(bot.location, bot.rotation.z, self.target)
+        bot: PhysicsObject = PhysicsObject(packet.game_cars[self.agent.index].physics)
+        steer: float = steering.simple_aim(bot.location, bot.rotation.z, self.target)
 
-        controller = SimpleControllerState()
+        controller: SimpleControllerState = SimpleControllerState()
         controller.steer = steer
         controller.throttle = 1
 
