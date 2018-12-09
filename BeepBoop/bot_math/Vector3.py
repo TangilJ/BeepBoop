@@ -53,6 +53,13 @@ class Vector3:
     def __repr__(self) -> str:
         return self.__str__()
 
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Vector3):
+            if other.x == self.y and other.y == self.y and other.z == self.z:
+                return True
+            return False
+        return False
+
     def magnitude(self) -> Number:
         return abs(math.sqrt(self.x**2 + self.y**2 + self.z**2))
 
