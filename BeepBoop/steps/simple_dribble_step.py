@@ -16,11 +16,18 @@ class SimpleDribbleStep(BaseStep):
         self.arrival_delay: float = arrival_delay
         self.game_info: GameInfo = GameInfo(agent.index, agent.team)
 
+    """Drives towards the ball's first ground bounce and tries to arrive there at the same time as the bounce."""
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
         self.game_info.read_packet(packet)
 
         bot: PhysicsObject = PhysicsObject(packet.game_cars[self.agent.index].physics)
-        landing, flight_time = ball_prediction.get_ground_bounces(self.agent.get_ball_prediction_struct())[0]
+        bounces = ball_prediction.get_ground_bounces(self.agent.get_ball_prediction_struct())
+        if len(bounces) > 0:
+            landing, flight_time = bounces[0]
+        else:
+            # This means that the ball is completely still and will not bounce.
+            # Therefore, `landing` is the ball's current position.
+            landing, flight_time = Vector3(packet.game_ball.physics.location), packet.game_info.seconds_elapsed
 
         time_taken: float = flight_time + self.arrival_delay - packet.game_info.seconds_elapsed
         to_target: Vector3 = landing - bot.location
