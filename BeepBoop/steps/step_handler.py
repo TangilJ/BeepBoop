@@ -1,7 +1,7 @@
 from rlbot.agents.base_agent import BaseAgent, GameTickPacket, SimpleControllerState
 from BeepBoop.steps.base_step import BaseStep
 from BeepBoop.steps.kickoff_step import KickoffStep
-from BeepBoop.steps.simple_dribble_step import SimpleDribbleStep
+from BeepBoop.steps.shot_step import ShotStep
 from BeepBoop.steps.simple_move_step import SimpleMoveStep
 from BeepBoop.bot_math.Vector3 import Vector3
 from typing import Optional
@@ -20,9 +20,10 @@ class StepHandler:
             return KickoffStep(self.agent)
         # Go to bot's own goal if the ball is in between the bot and the bot's own goal
         elif (bot.y < ball.y) if self.agent.team else (bot.y > ball.y):
-            return SimpleMoveStep(self.agent, Vector3(0, 5000 * 1 if self.agent.team else -1, 0))
+            own_goal: Vector3 = Vector3(self.agent.get_field_info().goals[self.agent.team].location)
+            return SimpleMoveStep(self.agent, own_goal)
         else:
-            return SimpleDribbleStep(self.agent)
+            return ShotStep(self.agent)
 
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
         out: Optional[SimpleControllerState] = self.current_step.get_output(packet)
