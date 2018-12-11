@@ -13,7 +13,7 @@ class SimpleMoveStep(BaseStep):
 
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
         bot: PhysicsObject = PhysicsObject(packet.game_cars[self.agent.index].physics)
-        steer: float = steering.simple_aim(bot.location, bot.rotation.z, self.target)
+        steer: float = steering.gosling_steering(bot.location, bot.rotation.z, self.target)
 
         controller: SimpleControllerState = SimpleControllerState()
         controller.steer = steer
