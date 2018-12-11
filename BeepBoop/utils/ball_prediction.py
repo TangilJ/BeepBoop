@@ -1,6 +1,7 @@
 from rlbot.utils.structures.ball_prediction_struct import BallPrediction
 from BeepBoop.bot_math.Vector3 import Vector3
-from typing import List, Tuple
+from typing import List, Tuple, Optional
+import math
 
 
 def get_ground_bounces(path: BallPrediction) -> List[Tuple[Vector3, float]]:
@@ -30,3 +31,14 @@ def get_ground_bounces(path: BallPrediction) -> List[Tuple[Vector3, float]]:
             bounces.append((Vector3(current_slice.physics.location), current_slice.game_seconds))
 
     return bounces
+
+
+def get_ball_in_net(path: BallPrediction, goal_y_pos: float) -> Optional[Tuple[Vector3, float]]:
+    for i in range(path.num_slices):
+        current_slice = path.slices[i]
+        current_location = current_slice.physics.location
+        if abs(current_location.y) > abs(goal_y_pos) and math.copysign(1, current_location.y) == math.copysign(1, goal_y_pos) \
+                and abs(current_location.x) < 900 and current_location.z < 650:
+            return Vector3(current_location), current_slice.game_seconds
+
+    return None
