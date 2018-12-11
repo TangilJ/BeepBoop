@@ -4,7 +4,9 @@ from BeepBoop.steps.kickoff_step import KickoffStep
 from BeepBoop.steps.shot_step import ShotStep
 from BeepBoop.steps.simple_move_step import SimpleMoveStep
 from BeepBoop.steps.escape_goal_step import EscapeGoalStep
+from BeepBoop.steps.save_goal_step import SaveGoalStep
 from BeepBoop.bot_math.Vector3 import Vector3
+from BeepBoop.utils import ball_prediction
 from typing import Optional
 
 
@@ -16,14 +18,16 @@ class StepHandler:
     def choose_step(self, packet: GameTickPacket) -> BaseStep:
         ball = Vector3(packet.game_ball.physics.location)
         bot = Vector3(packet.game_cars[self.agent.index].physics.location)
+        own_goal: Vector3 = Vector3(self.agent.get_field_info().goals[self.agent.team].location)
 
         if ball.x == 0 and ball.y == 0:
             return KickoffStep(self.agent)
         elif abs(bot.y) > 4200:
             return EscapeGoalStep(self.agent)
+        elif ball_prediction.get_ball_in_net(self.agent.get_ball_prediction_struct(), own_goal.y) is not None:
+            return SaveGoalStep(self.agent)
         elif (bot.y < ball.y) if self.agent.team else (bot.y > ball.y):
             # Go to bot's own goal if the ball is in between the bot and the bot's own goal
-            own_goal: Vector3 = Vector3(self.agent.get_field_info().goals[self.agent.team].location)
             return SimpleMoveStep(self.agent, own_goal)
         else:
             return ShotStep(self.agent)
