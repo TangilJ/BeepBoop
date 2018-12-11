@@ -21,5 +21,6 @@ def gosling_steering(position: Vector3, yaw: float, target: Vector3) -> float:
     # https://github.com/ddthj/Gosling/blob/master/Episode%205%20Code/Util.py#L128
     angle_to_ball: float = calculations.angle_to_target(position, yaw, target)
     steer_value: float = ((10 * angle_to_ball + math.copysign(1, angle_to_ball)) ** 3) / 20
+    steer_value = min(max(steer_value, -1), 1)
 
     return steer_value
