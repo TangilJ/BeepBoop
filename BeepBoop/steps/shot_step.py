@@ -39,7 +39,7 @@ class ShotStep(BaseStep):
             target: Vector3 = calculations.closest_point(enemy_goal_left, ball_location, bot_location)
         else:
             # Hit the ball directly if inside the cone.
-            target: Vector3 = bot_location
+            target: Vector3 = ball_location
 
         self.agent.renderer.draw_rect_3d(enemy_goal_left.to_tuple(), 10, 10, True, self.agent.renderer.blue(), True)
         self.agent.renderer.draw_rect_3d(enemy_goal_right.to_tuple(), 10, 10, True, self.agent.renderer.yellow(), True)
