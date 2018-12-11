@@ -10,6 +10,11 @@ class BeepBoop(BaseAgent):
         self.step_handler: StepHandler = StepHandler(self)
 
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
-        self.quick_chat_handler.handle_quick_chats(packet)
+        self.renderer.begin_rendering()
 
-        return self.step_handler.get_output(packet)
+        self.quick_chat_handler.handle_quick_chats(packet)
+        output: SimpleControllerState = self.step_handler.get_output(packet)
+
+        self.renderer.end_rendering()
+
+        return output
