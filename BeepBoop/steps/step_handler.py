@@ -3,6 +3,7 @@ from BeepBoop.steps.base_step import BaseStep
 from BeepBoop.steps.kickoff_step import KickoffStep
 from BeepBoop.steps.shot_step import ShotStep
 from BeepBoop.steps.simple_move_step import SimpleMoveStep
+from BeepBoop.steps.escape_goal_step import EscapeGoalStep
 from BeepBoop.bot_math.Vector3 import Vector3
 from typing import Optional
 
@@ -18,8 +19,10 @@ class StepHandler:
 
         if ball.x == 0 and ball.y == 0:
             return KickoffStep(self.agent)
-        # Go to bot's own goal if the ball is in between the bot and the bot's own goal
+        elif abs(bot.y) > 4200:
+            return EscapeGoalStep(self.agent)
         elif (bot.y < ball.y) if self.agent.team else (bot.y > ball.y):
+            # Go to bot's own goal if the ball is in between the bot and the bot's own goal
             own_goal: Vector3 = Vector3(self.agent.get_field_info().goals[self.agent.team].location)
             return SimpleMoveStep(self.agent, own_goal)
         else:
