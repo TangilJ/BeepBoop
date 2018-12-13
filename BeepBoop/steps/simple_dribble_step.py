@@ -1,11 +1,13 @@
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
+from rlbot.utils.structures.ball_prediction_struct import Slice
 from .base_step import BaseStep
 from BeepBoop.utils.physics_object import PhysicsObject
 from BeepBoop.utils import ball_prediction
 from BeepBoop.bot_math.Vector3 import Vector3
 from RLUtilities.Maneuvers import Drive
 from RLUtilities.GameInfo import GameInfo
+from typing import List
 
 SPEED_MATCH = 1.3
 
@@ -21,9 +23,12 @@ class SimpleDribbleStep(BaseStep):
         self.game_info.read_packet(packet)
 
         bot: PhysicsObject = PhysicsObject(packet.game_cars[self.agent.index].physics)
-        bounces = ball_prediction.get_ground_bounces(self.agent.get_ball_prediction_struct())
+        bounces: List[Slice] = ball_prediction.get_ground_bounces(self.agent.get_ball_prediction_struct())
+
+        landing: Vector3
+        flight_time: float
         if len(bounces) > 0:
-            landing, flight_time = bounces[0]
+            landing, flight_time = Vector3(bounces[0].physics.location), bounces[0].game_seconds
         else:
             # This means that the ball is completely still and will not bounce.
             # Therefore, `landing` is the ball's current position.
