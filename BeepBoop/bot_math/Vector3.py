@@ -53,7 +53,7 @@ class Vector3:
     def __repr__(self) -> str:
         return self.__str__()
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: "Vector3") -> bool:
         if isinstance(other, Vector3):
             if other.x == self.y and other.y == self.y and other.z == self.z:
                 return True

@@ -18,7 +18,7 @@ class KickoffStep(BaseStep):
         self.kickoff_steps: Optional[List[KICKOFF_ACTION]] = None
         self.game_info: GameInfo = GameInfo(agent.index, agent.team)
 
-    def prepare_kickoff(self, packet: GameTickPacket):
+    def prepare_kickoff(self, packet: GameTickPacket) -> None:
         bot = Vector3(packet.game_cars[self.agent.index].physics.location)
 
         # DoNothing is put before AirDodge because we don't want the bot to boost when it's dodging,

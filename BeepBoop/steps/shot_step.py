@@ -35,23 +35,25 @@ class ShotStep(BaseStep):
         bot_to_goal_right: Vector3 = bot_location - enemy_goal_right
         bot_angle_right: float = math.atan2(bot_to_goal_right.y, bot_to_goal_right.x)
 
+        target: Vector3
         if bot_angle_left > ball_angle_left and bot_angle_right > ball_angle_right:
             # Go to the closest point on the edge of the cone to get a better shot.
-            target: Vector3 = enemy_goal_right
+            target = enemy_goal_right
         elif bot_angle_left < ball_angle_left and bot_angle_right < ball_angle_right:
             # Go to the closest point on the edge of the cone to get a better shot.
-            target: Vector3 = enemy_goal_left
+            target = enemy_goal_left
         else:
             # Hit the ball directly if inside the cone.
-            target: Vector3 = None
+            target = None
 
+        goal_to_ball: Vector3
         if target is not None:
-            goal_to_ball: Vector3 = (ball_location - target).normalised()
+            goal_to_ball = (ball_location - target).normalised()
             goal_to_bot: Vector3 = (bot_location - target).normalised()
             difference: Vector3 = goal_to_ball - goal_to_bot
             error = min(max(abs(difference.x) + abs(difference.y), 1), 10)
         else:
-            goal_to_ball: Vector3 = (bot_location - ball_location).normalised()
+            goal_to_ball = (bot_location - ball_location).normalised()
             error = min(max(Vector3.distance(ball_location, bot_location), 0), 1)
 
         dpp: float = (((ball_location.x - bot_location.x) * ball_velocity.x) + (
