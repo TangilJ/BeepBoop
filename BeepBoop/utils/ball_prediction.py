@@ -33,12 +33,12 @@ def get_ground_bounces(path: BallPrediction) -> List[Slice]:
     return bounces
 
 
-def get_ball_in_net(path: BallPrediction, goal_y_pos: float) -> Optional[Tuple[Vector3, float]]:
+def get_ball_in_net(path: BallPrediction, goal_y_pos: float) -> Optional[Slice]:
     for i in range(path.num_slices):
         current_slice = path.slices[i]
         current_location = current_slice.physics.location
         if abs(current_location.y) > abs(goal_y_pos) and math.copysign(1, current_location.y) == math.copysign(1, goal_y_pos) \
                 and abs(current_location.x) < 900 and current_location.z < 650:
-            return Vector3(current_location), current_slice.game_seconds
+            return current_slice
 
     return None
