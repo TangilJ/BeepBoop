@@ -11,7 +11,7 @@ from RLUtilities.Maneuvers import Aerial
 from RLUtilities.GameInfo import GameInfo
 from rlbot.utils.structures.ball_prediction_struct import Slice, BallPrediction
 
-MIN_Z_VEL = 10  # used to see if the ball comes from a high enough height to get underneath it
+MIN_Z_VEL = 400  # used to see if the ball comes from a high enough height to get underneath it
 
 
 class SaveGoalStep(BaseStep):
@@ -30,7 +30,7 @@ class SaveGoalStep(BaseStep):
         for bounce in bounces:
             if bounce.game_seconds > ball_net_time:
                 break
-            if bounce.physics.velocity.z > minimum_z_vel:
+            if abs(bounce.physics.velocity.z) > minimum_z_vel:
                 filtered.append(bounce)
 
         return filtered
@@ -77,7 +77,7 @@ class SaveGoalStep(BaseStep):
             elif len(ground_bounces_filtered) == 0 and len(ground_bounces) > 0:
                 self.current_action = HitAwayFromGoalStep(self.agent)
             else:
-                # Aerial if the ball is going straight to the net and
+                # Aerial if the ball is going straight to the net
                 self.current_action = AerialStep(self.agent)
 
         return self.current_action.get_output(packet)
