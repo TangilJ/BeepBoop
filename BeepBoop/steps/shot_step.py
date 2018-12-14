@@ -82,8 +82,11 @@ class ShotStep(BaseStep):
         self.agent.renderer.draw_line_3d(enemy_goal_left.to_tuple(), ball_location.to_tuple(), self.agent.renderer.red())
         self.agent.renderer.draw_line_3d(enemy_goal_right.to_tuple(), ball_location.to_tuple(), self.agent.renderer.red())
 
-        bot_yaw: float = packet.game_cars[self.agent.index].physics.rotation.yaw
         controller: SimpleControllerState = SimpleControllerState()
+        if Vector3.distance(bot_location, ball_location) < 100 and bot_location.z + 50 < ball_location.z:
+            controller.jump = True
+
+        bot_yaw: float = packet.game_cars[self.agent.index].physics.rotation.yaw
         controller.steer = steering.gosling_steering(bot_location, bot_yaw, target_location)  # Sorry Goose
         controller.throttle = 1
         controller.boost = abs(controller.steer) < 0.3

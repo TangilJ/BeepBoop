@@ -26,7 +26,7 @@ class StepHandler:
             return EscapeGoalStep(self.agent)
         elif ball_prediction.get_ball_in_net(self.agent.get_ball_prediction_struct(), own_goal.y) is not None:
             return SaveGoalStep(self.agent)
-        elif (bot.y < ball.y) if self.agent.team else (bot.y > ball.y):
+        elif (bot.y + 200 < ball.y) if self.agent.team else (bot.y - 200 > ball.y):
             # Go to bot's own goal if the ball is in between the bot and the bot's own goal
             return SimpleMoveStep(self.agent, own_goal)
         else:
