@@ -78,7 +78,7 @@ class SimpleDribbleStep(BaseStep):
         self.bot_pos = Vector3(packet.game_cars[self.agent.index].physics.location)
         self.game_info.read_packet(packet)
 
-        bounce: Slice = ball_prediction.get_ground_bounces(self.agent.get_ball_prediction_struct()[0])
+        bounce: Slice = ball_prediction.get_ground_bounces(self.agent.get_ball_prediction_struct())[0]
         self.arrive_on_time(Vector3(bounce.physics.location), bounce.game_seconds - packet.game_info.seconds_elapsed)
         self.aim(self.angle_to_target(Vector3(bounce.physics.location)))
 
