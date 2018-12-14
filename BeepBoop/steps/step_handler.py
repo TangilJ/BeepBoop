@@ -22,7 +22,7 @@ class StepHandler:
 
         if ball.x == 0 and ball.y == 0:
             return KickoffStep(self.agent)
-        elif abs(bot.y) > 4200 and abs(bot.x) < 8000:
+        elif abs(bot.y) > 5300 and abs(bot.x) < 8000:
             return EscapeGoalStep(self.agent)
         elif ball_prediction.get_ball_in_net(self.agent.get_ball_prediction_struct(), own_goal.y) is not None:
             return SaveGoalStep(self.agent)

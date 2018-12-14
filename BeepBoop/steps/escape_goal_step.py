@@ -19,5 +19,6 @@ class EscapeGoalStep(BaseStep):
 
         controller: SimpleControllerState = SimpleControllerState()
         controller.steer = gosling_steering(bot.location, bot.rotation.z, goal_location)
+        controller.throttle = 1
 
         return controller
