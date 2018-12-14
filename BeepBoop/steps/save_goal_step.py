@@ -63,21 +63,8 @@ class SaveGoalStep(BaseStep):
             ground_bounces_filtered: List[Slice] = self.bounces_filter(ground_bounces, ball_in_net.game_seconds, MIN_Z_VEL)
 
             if len(ground_bounces_filtered) > 0:
-                bot_location: Vector3 = Vector3(packet.game_cars[self.agent.index].physics.location)
-                closest_bounce: Slice = self.closest_point(ground_bounces_filtered, bot_location)
-                distance_to_closest_bounce: float = (Vector3(closest_bounce.physics.location) - bot_location).magnitude()
-                speed_to_reach_ball: float = distance_to_closest_bounce / closest_bounce.game_seconds
-
-                # If the closest bounce is unreachable (see if the bot needs a higher speed than is possible)
-                if speed_to_reach_ball > 2100:
-                    self.current_action = AerialStep(self.agent)
-                else:
-                    # Catch the ball if it's reachable
-                    self.current_action = SimpleDribbleStep
-            elif len(ground_bounces_filtered) == 0 and len(ground_bounces) > 0:
-                self.current_action = HitAwayFromGoalStep(self.agent)
+                self.current_action = SimpleDribbleStep(self.agent)
             else:
-                # Aerial if the ball is going straight to the net
-                self.current_action = AerialStep(self.agent)
+                self.current_action = HitAwayFromGoalStep(self.agent)
 
         return self.current_action.get_output(packet)
