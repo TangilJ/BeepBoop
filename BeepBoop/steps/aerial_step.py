@@ -19,9 +19,9 @@ class AerialStep(BaseStep):
         ball_prediction: BallPrediction = self.agent.get_ball_prediction_struct()
         # Find the first viable point on the ball path to aerial to
         for i in range(ball_prediction.num_slices):
-            loc = ball_prediction[i].physics.location
+            loc = ball_prediction.slices[i].physics.location
             self.aerial.target = vec3(loc.x, loc.y, loc.z)
-            self.aerial.t_arrival = ball_prediction[i].game_seconds
+            self.aerial.t_arrival = ball_prediction.slices[i].game_seconds
             if self.aerial.is_viable():
                 break
 
