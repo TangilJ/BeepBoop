@@ -6,6 +6,7 @@ from BeepBoop.utils.physics_object import PhysicsObject
 from BeepBoop.bot_math.Vector3 import Vector3
 import math
 
+
 class EscapeGoalStep(BaseStep):
     def __init__(self, agent: BaseAgent):
         super().__init__(agent)
