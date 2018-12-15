@@ -5,16 +5,31 @@ from BeepBoop.utils import steering
 from BeepBoop.utils import calculations
 from BeepBoop.bot_math.Vector3 import Vector3
 import math
+from typing import Optional
+from RLUtilities.Maneuvers import AirDodge
+from RLUtilities.GameInfo import GameInfo
 
 
 class ShotStep(BaseStep):
     def __init__(self, agent: BaseAgent):
         super().__init__(agent)
+        self.dodge: Optional[AirDodge] = None
+        self.game_info: GameInfo = GameInfo(self.agent.index, self.agent.team)
 
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
         # ShotStep is a port of Gosling's calcShot.
         # See RLBot Start-To-Finish episode 5 (https://youtu.be/GPjrWW9zcRQ) for a good explanation of what this code does.
         # I thoroughly apologise for all this code. It is a mess.
+
+        if self.dodge is not None:
+            self.game_info.read_packet(packet)
+            self.dodge.step(1 / 60)
+            if self.dodge.finished:
+                self.cancellable = True
+                self.dodge = None
+            else:
+                self.cancellable = False
+                return self.dodge.controls
 
         bot_location: Vector3 = Vector3(packet.game_cars[self.agent.index].physics.location)
         ball_velocity: Vector3 = Vector3(packet.game_ball.physics.velocity)
@@ -37,14 +52,16 @@ class ShotStep(BaseStep):
 
         target: Vector3
         if bot_angle_left > ball_angle_left and bot_angle_right > ball_angle_right:
-            # Go to the closest point on the edge of the cone to get a better shot.
             target = enemy_goal_right
         elif bot_angle_left < ball_angle_left and bot_angle_right < ball_angle_right:
-            # Go to the closest point on the edge of the cone to get a better shot.
             target = enemy_goal_left
         else:
-            # Hit the ball directly if inside the cone.
             target = None
+            print(self.agent.team, Vector3.distance(bot_location, ball_location))
+            # Dodge if close to the ball and inside the cone
+            if Vector3.distance(bot_location, ball_location) < 300:
+                self.game_info.read_packet(packet)
+                self.dodge = AirDodge(self.game_info.my_car, 0.1, self.game_info.ball.pos)
 
         goal_to_ball: Vector3
         if target is not None:
@@ -83,8 +100,6 @@ class ShotStep(BaseStep):
         self.agent.renderer.draw_line_3d(enemy_goal_right.to_tuple(), ball_location.to_tuple(), self.agent.renderer.red())
 
         controller: SimpleControllerState = SimpleControllerState()
-        if Vector3.distance(bot_location, ball_location) < 100 and bot_location.z + 50 < ball_location.z:
-            controller.jump = True
 
         bot_yaw: float = packet.game_cars[self.agent.index].physics.rotation.yaw
         controller.steer = steering.gosling_steering(bot_location, bot_yaw, target_location)  # Sorry Goose
