@@ -1,13 +1,16 @@
 # Code was ported hastily from an old BeepBoop version so the code is going to be quite bad.
 
+import math
+
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.ball_prediction_struct import Slice
-from .base_step import BaseStep
-from BeepBoop.utils import ball_prediction
-from BeepBoop.bot_math.Vector3 import Vector3
 from RLUtilities.GameInfo import GameInfo
-import math
+
+from .base_step import BaseStep
+from bot_math.Vector3 import Vector3
+from utils import ball_prediction
+
 
 SPEED_MATCH = 1.3
 

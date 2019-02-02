@@ -1,7 +1,9 @@
-from rlbot.utils.structures.ball_prediction_struct import BallPrediction, Slice
-from BeepBoop.bot_math.Vector3 import Vector3
-from typing import List, Tuple, Optional
 import math
+from typing import List, Optional
+
+from rlbot.utils.structures.ball_prediction_struct import BallPrediction, Slice
+
+from bot_math.Vector3 import Vector3
 
 
 def get_ground_bounces(path: BallPrediction) -> List[Slice]:

@@ -1,7 +1,8 @@
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
-from BeepBoop.utils.quick_chat_handler import QuickChatHandler
-from BeepBoop.steps.step_handler import StepHandler
+
+from steps.step_handler import StepHandler
+from utils.quick_chat_handler import QuickChatHandler
 
 
 class BeepBoop(BaseAgent):

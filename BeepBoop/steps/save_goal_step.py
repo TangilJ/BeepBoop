@@ -1,15 +1,18 @@
-from rlbot.utils.structures.game_data_struct import GameTickPacket
-from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
-from BeepBoop.steps.base_step import BaseStep
-from BeepBoop.steps.aerial_step import AerialStep
-from BeepBoop.steps.simple_dribble_step import SimpleDribbleStep
-from BeepBoop.steps.hit_away_from_goal_step import HitAwayFromGoalStep
-from BeepBoop.utils.ball_prediction import get_ball_in_net, get_ground_bounces
-from BeepBoop.bot_math.Vector3 import Vector3
 from typing import Optional, List, Union
+
+from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
+from rlbot.utils.structures.ball_prediction_struct import Slice, BallPrediction
+from rlbot.utils.structures.game_data_struct import GameTickPacket
 from RLUtilities.Maneuvers import Aerial
 from RLUtilities.GameInfo import GameInfo
-from rlbot.utils.structures.ball_prediction_struct import Slice, BallPrediction
+
+from bot_math.Vector3 import Vector3
+from steps.aerial_step import AerialStep
+from steps.base_step import BaseStep
+from steps.hit_away_from_goal_step import HitAwayFromGoalStep
+from steps.simple_dribble_step import SimpleDribbleStep
+from utils.ball_prediction import get_ball_in_net, get_ground_bounces
+
 
 MIN_Z_VEL = 400  # used to see if the ball comes from a high enough height to get underneath it
 

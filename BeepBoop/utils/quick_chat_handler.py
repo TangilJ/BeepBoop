@@ -1,8 +1,9 @@
-from rlbot.utils.structures.game_data_struct import GameTickPacket
-from rlbot.agents.base_agent import BaseAgent
-from rlbot.utils.structures.quick_chats import QuickChats
 import random
 from typing import List, Tuple
+
+from rlbot.agents.base_agent import BaseAgent
+from rlbot.utils.structures.game_data_struct import GameTickPacket
+from rlbot.utils.structures.quick_chats import QuickChats
 
 
 _SCORED_ON: List[int] = [QuickChats.Compliments_NiceShot, QuickChats.Compliments_NiceOne, QuickChats.Custom_Compliments_proud,

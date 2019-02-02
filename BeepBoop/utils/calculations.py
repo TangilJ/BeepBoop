@@ -1,5 +1,6 @@
-from BeepBoop.bot_math.Vector3 import Vector3
 import math
+
+from bot_math.Vector3 import Vector3
 
 
 def closest_point(p1: Vector3, p2: Vector3, p3: Vector3) -> Vector3:

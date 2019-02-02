@@ -1,13 +1,15 @@
-from rlbot.utils.structures.game_data_struct import GameTickPacket
-from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
-from BeepBoop.steps.base_step import BaseStep
-from BeepBoop.utils import steering
-from BeepBoop.utils import calculations
-from BeepBoop.bot_math.Vector3 import Vector3
 import math
 from typing import Optional
+
+from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
+from rlbot.utils.structures.game_data_struct import GameTickPacket
 from RLUtilities.Maneuvers import AirDodge
 from RLUtilities.GameInfo import GameInfo
+
+from bot_math.Vector3 import Vector3
+from steps.base_step import BaseStep
+from utils import steering
+from utils import calculations
 
 
 class ShotStep(BaseStep):

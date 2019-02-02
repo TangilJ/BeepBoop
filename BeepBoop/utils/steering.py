@@ -1,6 +1,7 @@
-from BeepBoop.bot_math.Vector3 import Vector3
-from BeepBoop.utils import calculations
 import math
+
+from bot_math.Vector3 import Vector3
+from utils import calculations
 
 
 def simple_aim(position: Vector3, yaw: float, target: Vector3) -> float:

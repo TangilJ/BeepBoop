@@ -1,11 +1,14 @@
-from rlbot.utils.structures.game_data_struct import GameTickPacket, BoostPad
-from rlbot.agents.base_agent import SimpleControllerState, BaseAgent
-from BeepBoop.steps.base_step import BaseStep
-from BeepBoop.bot_math.Vector3 import Vector3
 from typing import List, Optional, Union
-from RLUtilities.Maneuvers import AirDodge, Drive
+
+from rlbot.agents.base_agent import SimpleControllerState, BaseAgent
+from rlbot.utils.structures.game_data_struct import GameTickPacket, BoostPad
 from RLUtilities.GameInfo import GameInfo
 from RLUtilities.LinearAlgebra import vec3, normalize
+from RLUtilities.Maneuvers import AirDodge, Drive
+
+from bot_math.Vector3 import Vector3
+from steps.base_step import BaseStep
+
 
 KICKOFF_ACTION = Union[AirDodge, Drive]
 

@@ -1,6 +1,7 @@
-import rlbot.utils.structures.game_data_struct as game_data_struct
 import math
 from typing import Tuple, Optional, Union
+
+import rlbot.utils.structures.game_data_struct as game_data_struct
 from RLUtilities.LinearAlgebra import vec3
 
 

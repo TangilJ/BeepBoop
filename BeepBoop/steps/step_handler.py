@@ -1,13 +1,15 @@
-from rlbot.agents.base_agent import BaseAgent, GameTickPacket, SimpleControllerState
-from BeepBoop.steps.base_step import BaseStep
-from BeepBoop.steps.kickoff_step import KickoffStep
-from BeepBoop.steps.shot_step import ShotStep
-from BeepBoop.steps.simple_move_step import SimpleMoveStep
-from BeepBoop.steps.escape_goal_step import EscapeGoalStep
-from BeepBoop.steps.save_goal_step import SaveGoalStep
-from BeepBoop.bot_math.Vector3 import Vector3
-from BeepBoop.utils import ball_prediction
 from typing import Optional
+
+from rlbot.agents.base_agent import BaseAgent, GameTickPacket, SimpleControllerState
+
+from bot_math.Vector3 import Vector3
+from steps.base_step import BaseStep
+from steps.escape_goal_step import EscapeGoalStep
+from steps.kickoff_step import KickoffStep
+from steps.save_goal_step import SaveGoalStep
+from steps.shot_step import ShotStep
+from steps.simple_move_step import SimpleMoveStep
+from utils import ball_prediction
 
 
 class StepHandler:

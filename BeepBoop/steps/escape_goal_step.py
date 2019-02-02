@@ -1,10 +1,12 @@
+import math
+
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
+
 from .base_step import BaseStep
-from BeepBoop.utils.steering import gosling_steering
-from BeepBoop.utils.physics_object import PhysicsObject
-from BeepBoop.bot_math.Vector3 import Vector3
-import math
+from bot_math.Vector3 import Vector3
+from utils.physics_object import PhysicsObject
+from utils.steering import gosling_steering
 
 
 class EscapeGoalStep(BaseStep):

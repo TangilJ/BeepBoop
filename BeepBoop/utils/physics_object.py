@@ -1,5 +1,6 @@
 from rlbot.utils.structures import game_data_struct
-from BeepBoop.bot_math.Vector3 import Vector3
+
+from bot_math.Vector3 import Vector3
 
 
 class PhysicsObject:

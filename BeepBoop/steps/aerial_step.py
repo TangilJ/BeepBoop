@@ -1,11 +1,13 @@
-from rlbot.utils.structures.game_data_struct import GameTickPacket
+from typing import Optional
+
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
-from BeepBoop.steps.base_step import BaseStep
-from RLUtilities.Maneuvers import Aerial
+from rlbot.utils.structures.ball_prediction_struct import BallPrediction
+from rlbot.utils.structures.game_data_struct import GameTickPacket
 from RLUtilities.GameInfo import GameInfo
 from RLUtilities.LinearAlgebra import vec3
-from rlbot.utils.structures.ball_prediction_struct import BallPrediction
-from typing import Optional
+from RLUtilities.Maneuvers import Aerial
+
+from steps.base_step import BaseStep
 
 
 class AerialStep(BaseStep):
