@@ -6,7 +6,7 @@ from RLUtilities.LinearAlgebra import vec3
 
 
 Number = Union[int, float]
-VectorArgument = Union[Number, game_data_struct.Vector3, game_data_struct.Rotator]
+VectorArgument = Union[Number, game_data_struct.Vector3, game_data_struct.Rotator, vec3]
 
 
 class Vector3:
@@ -23,6 +23,10 @@ class Vector3:
             self.x = x.roll
             self.y = x.pitch
             self.z = x.yaw
+        elif isinstance(x, vec3):
+            self.x = x[0]
+            self.y = x[1]
+            self.z = x[2]
         elif y is not None and z is not None:
                 self.x = x
                 self.y = y
