@@ -2,7 +2,6 @@ from typing import List, Optional, Union
 
 from rlbot.agents.base_agent import SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket, BoostPad
-from RLUtilities.GameInfo import GameInfo
 from RLUtilities.LinearAlgebra import vec3, normalize
 from RLUtilities.Maneuvers import AirDodge, Drive
 
@@ -20,7 +19,6 @@ class KickoffStep(BaseStep):
         super().__init__(agent)
         self.cancellable: bool = False
         self.kickoff_steps: Optional[List[KICKOFF_ACTION]] = None
-        self.game_info: GameInfo = GameInfo(agent.index, agent.team)
 
     def get_closest_small_pad(self, bot_pos: Vector3) -> BoostPad:
         closest_pad: BoostPad = None
@@ -47,38 +45,38 @@ class KickoffStep(BaseStep):
             second_target: vec3 = vec3(0, 850, 0) * (1 if self.agent.team else -1)
 
             self.kickoff_steps = [
-                Drive(self.game_info.my_car, first_target, 2400),
-                AirDodge(self.game_info.my_car, 0.075, vec3(0, 0, 0)),
-                Drive(self.game_info.my_car, second_target, 2400),
-                AirDodge(self.game_info.my_car, 0.075, vec3(0, 0, 0))
+                Drive(self.agent.game_info.my_car, first_target, 2400),
+                AirDodge(self.agent.game_info.my_car, 0.075, vec3(0, 0, 0)),
+                Drive(self.agent.game_info.my_car, second_target, 2400),
+                AirDodge(self.agent.game_info.my_car, 0.075, vec3(0, 0, 0))
             ]
         # Off-centre kickoff
         elif abs(bot_pos.x) < 1000:
-            target: vec3 = normalize(self.game_info.my_car.pos) * 500
+            target: vec3 = normalize(self.agent.game_info.my_car.pos) * 500
 
             self.kickoff_steps = [
-                Drive(self.game_info.my_car, vec3(self.game_info.my_car.pos[0], 3477 * (1 if self.agent.team else -1), 0), 2400),
-                AirDodge(self.game_info.my_car, 0.075, vec3(0, 0, 0)),
-                Drive(self.game_info.my_car, target, 2400),
-                AirDodge(self.game_info.my_car, 0.075, vec3(0, 0, 0))
+                Drive(self.agent.game_info.my_car, vec3(self.agent.game_info.my_car.pos[0], 3477 * (1 if self.agent.team else -1), 0), 2400),
+                AirDodge(self.agent.game_info.my_car, 0.075, vec3(0, 0, 0)),
+                Drive(self.agent.game_info.my_car, target, 2400),
+                AirDodge(self.agent.game_info.my_car, 0.075, vec3(0, 0, 0))
             ]
         # Diagonal kickoff
         else:
             pad = self.get_closest_small_pad(bot_pos).location
-            car_to_pad: vec3 = vec3(pad.x, pad.y, pad.z) - self.game_info.my_car.pos
-            first_target: vec3 = self.game_info.my_car.pos + 1.425 * car_to_pad
+            car_to_pad: vec3 = vec3(pad.x, pad.y, pad.z) - self.agent.game_info.my_car.pos
+            first_target: vec3 = self.agent.game_info.my_car.pos + 1.425 * car_to_pad
             second_target: vec3 = vec3(0, 150, 0) * (1 if self.agent.team else -1)
-            third_target: vec3 = normalize(self.game_info.my_car.pos) * 850
+            third_target: vec3 = normalize(self.agent.game_info.my_car.pos) * 850
 
             self.kickoff_steps = [
-                Drive(self.game_info.my_car, first_target, 2300),
-                AirDodge(self.game_info.my_car, 0.035, second_target),
-                Drive(self.game_info.my_car, third_target, 2400),
-                AirDodge(self.game_info.my_car, 0.1, vec3(0, 0, 0))
+                Drive(self.agent.game_info.my_car, first_target, 2300),
+                AirDodge(self.agent.game_info.my_car, 0.035, second_target),
+                Drive(self.agent.game_info.my_car, third_target, 2400),
+                AirDodge(self.agent.game_info.my_car, 0.1, vec3(0, 0, 0))
             ]
 
     def get_output(self, packet: GameTickPacket) -> Optional[SimpleControllerState]:
-        self.game_info.read_packet(packet)
+        self.agent.game_info.read_packet(packet)
 
         ball = packet.game_ball.physics.location
         if ball.x != 0 or ball.y != 0:
@@ -105,7 +103,7 @@ class KickoffStep(BaseStep):
 
                 step = self.kickoff_steps[0]
 
-            if isinstance(step, Drive) and not self.game_info.my_car.on_ground:
+            if isinstance(step, Drive) and not self.agent.game_info.my_car.on_ground:
                 # Do not do anything until the car gets on the ground
                 return SimpleControllerState()
 

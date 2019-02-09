@@ -4,7 +4,6 @@ from rlbot.agents.base_agent import SimpleControllerState
 from rlbot.utils.structures.ball_prediction_struct import Slice, BallPrediction
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from RLUtilities.Maneuvers import Aerial
-from RLUtilities.GameInfo import GameInfo
 
 from beepboop import BeepBoop
 from bot_math.Vector3 import Vector3
@@ -23,7 +22,6 @@ class SaveGoalStep(BaseStep):
         super().__init__(agent)
         self.cancellable: bool = False
         self.aerial: Optional[Aerial] = None
-        self.game_info: GameInfo = GameInfo(agent.index, agent.team)
         self.current_action: Optional[Union[AerialStep, SimpleDribbleStep, HitAwayFromGoalStep]] = None
 
     @staticmethod
@@ -59,7 +57,7 @@ class SaveGoalStep(BaseStep):
             self.cancellable = True
             return None
 
-        self.game_info.read_packet(packet)
+        self.agent.game_info.read_packet(packet)
 
         if self.current_action is None:
             # Figure out what action to take (aerial, dribble, or kicking the ball away)

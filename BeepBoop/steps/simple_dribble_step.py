@@ -5,7 +5,6 @@ import math
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from rlbot.agents.base_agent import SimpleControllerState
 from rlbot.utils.structures.ball_prediction_struct import Slice
-from RLUtilities.GameInfo import GameInfo
 
 from .base_step import BaseStep
 from beepboop import BeepBoop
@@ -20,7 +19,6 @@ class SimpleDribbleStep(BaseStep):
     def __init__(self, agent: BeepBoop, arrival_delay: float = 0):
         super().__init__(agent)
         self.arrival_delay: float = arrival_delay
-        self.game_info: GameInfo = GameInfo(agent.index, agent.team)
         self.controller: SimpleControllerState = SimpleControllerState()
         self.bot_vel: Vector3 = Vector3(0, 0, 0)
         self.bot_yaw: float = 0
@@ -80,7 +78,7 @@ class SimpleDribbleStep(BaseStep):
         self.bot_yaw = math.degrees(bot_rot.z)
         self.bot_vel = Vector3(packet.game_cars[self.agent.index].physics.velocity)
         self.bot_pos = Vector3(packet.game_cars[self.agent.index].physics.location)
-        self.game_info.read_packet(packet)
+        self.agent.game_info.read_packet(packet)
 
         bounce: Slice = ball_prediction.get_ground_bounces(self.agent.get_ball_prediction_struct())[0]
         self.arrive_on_time(Vector3(bounce.physics.location), bounce.game_seconds - packet.game_info.seconds_elapsed)
