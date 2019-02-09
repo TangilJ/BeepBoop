@@ -1,9 +1,10 @@
 import random
 from typing import List, Tuple
 
-from rlbot.agents.base_agent import BaseAgent
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from rlbot.utils.structures.quick_chats import QuickChats
+
+from beepboop import BeepBoop
 
 
 _SCORED_ON: List[int] = [QuickChats.Compliments_NiceShot, QuickChats.Compliments_NiceOne, QuickChats.Custom_Compliments_proud,
@@ -15,8 +16,8 @@ _GOT_DEMOED: List[int] = [QuickChats.Custom_Toxic_DeAlloc, QuickChats.Apologies_
 
 
 class QuickChatHandler:
-    def __init__(self, agent: BaseAgent) -> None:
-        self.agent: BaseAgent = agent
+    def __init__(self, agent: BeepBoop) -> None:
+        self.agent: BeepBoop = agent
         self.prev_frame_demos: int = 0
         self.prev_frame_score: Tuple[int, int] = (0, 0)
 

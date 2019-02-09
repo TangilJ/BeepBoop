@@ -1,16 +1,17 @@
 import math
 
 from rlbot.utils.structures.game_data_struct import GameTickPacket
-from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
+from rlbot.agents.base_agent import SimpleControllerState
 
 from .base_step import BaseStep
+from beepboop import BeepBoop
 from bot_math.Vector3 import Vector3
 from utils.physics_object import PhysicsObject
 from utils.steering import gosling_steering
 
 
 class EscapeGoalStep(BaseStep):
-    def __init__(self, agent: BaseAgent):
+    def __init__(self, agent: BeepBoop):
         super().__init__(agent)
 
     """Drives towards the ball's first ground bounce and tries to arrive there at the same time as the bounce."""

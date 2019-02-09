@@ -1,6 +1,7 @@
 from rlbot.utils.structures.game_data_struct import GameTickPacket
-from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
+from rlbot.agents.base_agent import SimpleControllerState
 
+from beepboop import BeepBoop
 from bot_math.Vector3 import Vector3
 from steps.base_step import BaseStep
 from utils import steering
@@ -8,7 +9,7 @@ from utils.physics_object import PhysicsObject
 
 
 class SimpleMoveStep(BaseStep):
-    def __init__(self, agent: BaseAgent, target: Vector3):
+    def __init__(self, agent: BeepBoop, target: Vector3):
         super().__init__(agent)
         self.target: Vector3 = target
 

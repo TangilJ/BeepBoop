@@ -3,11 +3,12 @@
 import math
 
 from rlbot.utils.structures.game_data_struct import GameTickPacket
-from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
+from rlbot.agents.base_agent import SimpleControllerState
 from rlbot.utils.structures.ball_prediction_struct import Slice
 from RLUtilities.GameInfo import GameInfo
 
 from .base_step import BaseStep
+from beepboop import BeepBoop
 from bot_math.Vector3 import Vector3
 from utils import ball_prediction
 
@@ -16,7 +17,7 @@ SPEED_MATCH = 1.3
 
 
 class SimpleDribbleStep(BaseStep):
-    def __init__(self, agent: BaseAgent, arrival_delay: float = 0):
+    def __init__(self, agent: BeepBoop, arrival_delay: float = 0):
         super().__init__(agent)
         self.arrival_delay: float = arrival_delay
         self.game_info: GameInfo = GameInfo(agent.index, agent.team)

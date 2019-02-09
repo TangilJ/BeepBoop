@@ -1,17 +1,18 @@
 from typing import Optional
 
-from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
+from rlbot.agents.base_agent import SimpleControllerState
 from rlbot.utils.structures.ball_prediction_struct import BallPrediction
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from RLUtilities.GameInfo import GameInfo
 from RLUtilities.LinearAlgebra import vec3
 from RLUtilities.Maneuvers import Aerial
 
+from beepboop import BeepBoop
 from steps.base_step import BaseStep
 
 
 class AerialStep(BaseStep):
-    def __init__(self, agent: BaseAgent):
+    def __init__(self, agent: BeepBoop):
         super().__init__(agent)
         self.game_info: GameInfo = GameInfo(agent.index, agent.index)
         self.aerial = Aerial(self.game_info.my_car, vec3(0, 0, 0), 0)

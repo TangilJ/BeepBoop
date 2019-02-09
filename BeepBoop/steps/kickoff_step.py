@@ -1,11 +1,12 @@
 from typing import List, Optional, Union
 
-from rlbot.agents.base_agent import SimpleControllerState, BaseAgent
+from rlbot.agents.base_agent import SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket, BoostPad
 from RLUtilities.GameInfo import GameInfo
 from RLUtilities.LinearAlgebra import vec3, normalize
 from RLUtilities.Maneuvers import AirDodge, Drive
 
+from beepboop import BeepBoop
 from bot_math.Vector3 import Vector3
 from steps.base_step import BaseStep
 
@@ -15,7 +16,7 @@ KICKOFF_ACTION = Union[AirDodge, Drive]
 
 class KickoffStep(BaseStep):
 
-    def __init__(self, agent: BaseAgent):
+    def __init__(self, agent: BeepBoop):
         super().__init__(agent)
         self.cancellable: bool = False
         self.kickoff_steps: Optional[List[KICKOFF_ACTION]] = None

@@ -1,7 +1,8 @@
 from typing import Optional
 
-from rlbot.agents.base_agent import BaseAgent, GameTickPacket, SimpleControllerState
+from rlbot.agents.base_agent import GameTickPacket, SimpleControllerState
 
+from beepboop import BeepBoop
 from bot_math.Vector3 import Vector3
 from steps.base_step import BaseStep
 from steps.escape_goal_step import EscapeGoalStep
@@ -13,8 +14,8 @@ from utils import ball_prediction
 
 
 class StepHandler:
-    def __init__(self, agent: BaseAgent):
-        self.agent: BaseAgent = agent
+    def __init__(self, agent: BeepBoop):
+        self.agent: BeepBoop = agent
         self.current_step: BaseStep = KickoffStep(self.agent)
 
     def choose_step(self, packet: GameTickPacket) -> BaseStep:
