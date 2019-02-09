@@ -65,6 +65,9 @@ class Vector3:
             return False
         return False
 
+    def __neg__(self) -> "Vector3":
+        return -1 * self
+
     def __getitem__(self, item: int) -> Number:
         if item == 0:
             return self.x
