@@ -65,6 +65,26 @@ class Vector3:
             return False
         return False
 
+    def __getitem__(self, item: int) -> Number:
+        if item == 0:
+            return self.x
+        elif item == 1:
+            return self.y
+        elif item == 2:
+            return self.z
+        else:
+            raise IndexError("Invalid index for accessing Vector3. Must be 0, 1, or 2.")
+
+    def __setitem__(self, key: int, value: Number):
+        if key == 0:
+            self.x = value
+        elif key == 1:
+            self.y = value
+        elif key == 2:
+            self.z = value
+        else:
+            raise IndexError("Invalid index for accessing Vector3. Must be 0, 1, or 2.")
+
     def magnitude(self) -> Number:
         return abs(math.sqrt(self.x**2 + self.y**2 + self.z**2))
 
