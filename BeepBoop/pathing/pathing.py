@@ -20,7 +20,7 @@ def in_shooting_cone(car: Vector3, ball: Vector3, goal_y_sign: float) -> bool:
     normalised: Vector3 = car_to_ball.normalised()
     dist_y_ball_to_goal: float = goal_y_sign * GOAL_LINE_Y - ball.y
     multiplies_to_goal_y: float = dist_y_ball_to_goal / normalised.y
-    pos_x_ball_in_goal = ball.x + multiplies_to_goal_y * normalised
+    pos_x_ball_in_goal = ball.x + multiplies_to_goal_y * normalised.x
 
     if abs(pos_x_ball_in_goal) < HALF_GOAL_WIDTH:
         return True
