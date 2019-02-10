@@ -7,13 +7,13 @@ from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from RLUtilities.GameInfo import GameInfo
 
-from steps.step_handler import StepHandler
-from utils.quick_chat_handler import QuickChatHandler
-
 
 class BeepBoop(BaseAgent):
     def __init__(self, name, team, index):
         super().__init__(name, team, index)
+
+        from steps.step_handler import StepHandler
+        from utils.quick_chat_handler import QuickChatHandler
 
         self.quick_chat_handler: QuickChatHandler = QuickChatHandler(self)
         self.step_handler: StepHandler = StepHandler(self)
