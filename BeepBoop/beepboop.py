@@ -1,3 +1,8 @@
+import sys
+import os
+path = os.path.dirname(__file__)
+sys.path.append(path)
+
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 from RLUtilities.GameInfo import GameInfo
