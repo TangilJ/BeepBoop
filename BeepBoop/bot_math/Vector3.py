@@ -4,7 +4,6 @@ from typing import Tuple, Optional, Union
 import rlbot.utils.structures.game_data_struct as game_data_struct
 from RLUtilities.LinearAlgebra import vec3
 
-
 Number = Union[int, float]
 VectorArgument = Union[Number, game_data_struct.Vector3, game_data_struct.Rotator, vec3]
 
@@ -28,9 +27,9 @@ class Vector3:
             self.y = x[1]
             self.z = x[2]
         elif y is not None and z is not None:
-                self.x = x
-                self.y = y
-                self.z = z
+            self.x = x
+            self.y = y
+            self.z = z
         else:
             raise TypeError("Wrong type(s) given for Vector3.y and/or Vector3.z")
 
@@ -89,7 +88,7 @@ class Vector3:
             raise IndexError("Invalid index for accessing Vector3. Must be 0, 1, or 2.")
 
     def magnitude(self) -> Number:
-        return abs(math.sqrt(self.x**2 + self.y**2 + self.z**2))
+        return abs(math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2))
 
     def normalised(self) -> "Vector3":
         mag = self.magnitude()
@@ -100,6 +99,12 @@ class Vector3:
 
     def to_tuple(self) -> Tuple[Number, Number, Number]:
         return self.x, self.y, self.z
+
+    def modified(self, x: Number = None, y: Number = None, z: Number = None) -> "Vector3":
+        new_x = x if x is not None else self.x
+        new_y = y if y is not None else self.y
+        new_z = z if z is not None else self.z
+        return Vector3(new_x, new_y, new_z)
 
     @staticmethod
     def dot_product(v1: "Vector3", v2: "Vector3") -> Number:
@@ -121,7 +126,7 @@ class Vector3:
 
     @staticmethod
     def distance(p1: "Vector3", p2: "Vector3") -> Number:
-        return math.sqrt((p2.x - p1.x)**2 + (p2.y - p1.y)**2 + (p2.z - p1.z)**2)
+        return math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2 + (p2.z - p1.z) ** 2)
 
     @staticmethod
     def angle(v1: "Vector3", v2: "Vector3") -> Number:
