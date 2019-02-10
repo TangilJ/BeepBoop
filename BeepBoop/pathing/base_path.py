@@ -37,8 +37,9 @@ class BasePath(metaclass=ABCMeta):
         """
         Renders ``self.path`` on-screen.
         """
-        color = self.agent.renderer.orange() if self.agent.team else self.agent.renderer.blue()
-        self.agent.renderer.draw_polyline_3d(self.path, color)
+        if self.path:
+            color = self.agent.renderer.red() if self.agent.team else self.agent.renderer.cyan()
+            self.agent.renderer.draw_polyline_3d(self.path, color)
 
     @abstractmethod
     def generate_path(self, packet: GameTickPacket) -> List[Vector3]:
