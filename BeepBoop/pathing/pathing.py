@@ -2,6 +2,8 @@ from typing import List
 
 from bot_math.Vector3 import Vector3
 
+from utils.calculations import sign
+
 
 HALF_GOAL_WIDTH: float = 892.755
 GOAL_LINE_Y: int = 5120
@@ -16,6 +18,10 @@ def in_shooting_cone(car: Vector3, ball: Vector3, goal_y_sign: float) -> bool:
     :param goal_y_sign: Sign of the Y position of the goal the car is shooting at
     :return: True if the car is in the shooting cone. False if it is not.
     """
+
+    if sign(ball.y - car.y) != goal_y_sign:
+        return False
+
     car_to_ball: Vector3 = ball - car
     normalised: Vector3 = car_to_ball.normalised()
     dist_y_ball_to_goal: float = goal_y_sign * GOAL_LINE_Y - ball.y
