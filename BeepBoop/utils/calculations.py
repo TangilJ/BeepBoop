@@ -50,3 +50,33 @@ def sign(n: float) -> int:
     :return: Returns if 1 if n is positive, else returns -1
     """
     return 1 if n > 0 else -1
+
+
+def line_line_intersection(a1: Vector3, a2: Vector3, b1: Vector3, b2: Vector3) -> Vector3:
+    """
+    Determines the intersection point of line a1a2 and line b1b2.
+    Both lines are assumed to be infinitely long.
+
+    :param a1: Starting point of line 1
+    :param a2: Ending point of line 1
+    :param b1: Starting point of line 2
+    :param b2: Ending point of line 2
+    :return: The intersection point of line 1 and line 2
+    """
+    # From https://stackoverflow.com/a/20677983/7245441
+
+    def det(a: Vector3, b: Vector3) -> float:
+        return a.x * b.y - a.y * b.x
+
+    y_diff = Vector3(a1.y - a2.y, b1.y - b2.y, 0)
+    x_diff = Vector3(a1.x - a2.x, b1.x - b2.x, 0)
+
+    div = det(x_diff, y_diff)
+    if div == 0:
+        raise Exception("Lines do not intersect")
+
+    d = Vector3(det(a1, a2), det(b1, b2), 0)
+    x = det(d, x_diff) / div
+    y = det(d, y_diff) / div
+
+    return Vector3(x, y, 0)
