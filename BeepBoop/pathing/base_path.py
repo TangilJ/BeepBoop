@@ -33,6 +33,13 @@ class BasePath(metaclass=ABCMeta):
             raise Exception("Closest point was None. self.path could be empty.")
         return closest_point
 
+    def remove_points_to_index(self, i: int) -> None:
+        """
+        Removes all the points in self.path, up to and including self.path[``i``].
+        """
+        for _ in range(i + 1):
+            self.path.pop(0)
+
     def draw_path(self) -> None:
         """
         Renders ``self.path`` on-screen.
