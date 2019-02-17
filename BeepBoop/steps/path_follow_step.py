@@ -5,6 +5,7 @@ from rlbot.utils.structures.game_data_struct import GameTickPacket
 
 from beepboop import BeepBoop
 from bot_math.Vector3 import Vector3
+from utils import calculations
 from pathing.base_path import BasePath
 from steps.base_step import BaseStep
 from utils.steering import gosling_steering
@@ -17,7 +18,7 @@ class PathFollowStep(BaseStep):
 
     def get_output(self, packet: GameTickPacket) -> Union[SimpleControllerState, None]:
         position: Vector3 = Vector3(packet.game_cars[self.agent.index].physics.location)
-        yaw: float = packet.game_cars[self.agent.index].physics.yaw
+        yaw: float = packet.game_cars[self.agent.index].physics.rotation.yaw
 
         while True:
             if len(self.path.path) == 0:
@@ -32,5 +33,7 @@ class PathFollowStep(BaseStep):
 
         self.path.draw_path()
 
-        steer = gosling_steering(position, yaw, next_point)
-        return SimpleControllerState(steer, 1)
+        steer: float = gosling_steering(position, yaw, next_point)
+        handbrake: bool = calculations.angle_to_target(position, yaw, next_point) > 1.75
+        boost: bool = calculations.angle_to_target(position, yaw, next_point) < 0.35
+        return SimpleControllerState(steer, 1, boost=boost, handbrake=handbrake)
