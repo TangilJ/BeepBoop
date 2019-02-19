@@ -45,9 +45,6 @@ class StepHandler:
         out = self.current_step.get_output(packet)
 
         if out is not None:
-            step_name: str = type(self.current_step).__name__
-            text_pos_y: float = 15 + 15 * self.agent.index
-            self.agent.renderer.draw_string_2d(10, text_pos_y, 1, 1, f"Step: {step_name}", self.agent.renderer.cyan())
             return out
         else:
             self.agent.logger.warning(f"Agent {self.agent.name} is returning an empty controller on the first frame of the step")

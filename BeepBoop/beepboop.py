@@ -25,6 +25,11 @@ class BeepBoop(BaseAgent):
 
         self.renderer.begin_rendering()
         output: SimpleControllerState = self.step_handler.get_output(packet)
+
+        step_name: str = type(self.step_handler.current_step).__name__
+        text_pos_y: float = 15 + 15 * self.index
+        self.renderer.draw_string_2d(10, text_pos_y, 1, 1, f"Step: {step_name}", self.renderer.cyan())
+
         self.renderer.end_rendering()
 
         return output
