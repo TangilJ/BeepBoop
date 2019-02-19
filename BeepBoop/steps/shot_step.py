@@ -17,7 +17,7 @@ class ShotStep(BaseStep):
         # TODO: If the car is far enough away from all points or is facing the wrong direction, redraw the curve
         # ^ E.g. the angle between its direction and the direction between 2 consequent points is too large
 
-        if self.path.path is []:
+        if self.path.path == []:
             self.path.generate_path(packet)
 
         return self.follow.get_output(packet)
