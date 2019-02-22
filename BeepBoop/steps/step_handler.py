@@ -49,4 +49,4 @@ class StepHandler:
             return out
         else:
             self.agent.logger.warning(f"Agent {self.agent.name} is returning an empty controller on the first frame of the step")
-            return SimpleDribbleStep(self.agent).get_output(packet)
+            return SimpleMoveStep(self.agent, Vector3(packet.game_ball.physics.location)).get_output(packet)
