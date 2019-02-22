@@ -9,6 +9,7 @@ from steps.escape_goal_step import EscapeGoalStep
 from steps.kickoff_step import KickoffStep
 from steps.save_goal_step import SaveGoalStep
 from steps.shot_step import ShotStep
+from steps.simple_dribble_step import SimpleDribbleStep
 from steps.simple_move_step import SimpleMoveStep
 from utils import ball_prediction
 
@@ -48,4 +49,4 @@ class StepHandler:
             return out
         else:
             self.agent.logger.warning(f"Agent {self.agent.name} is returning an empty controller on the first frame of the step")
-            return SimpleControllerState()
+            return SimpleDribbleStep(self.agent).get_output(packet)
