@@ -48,6 +48,15 @@ class BasePath(metaclass=ABCMeta):
             color = self.agent.renderer.red() if self.agent.team else self.agent.renderer.cyan()
             self.agent.renderer.draw_polyline_3d(self.path, color)
 
+    def distance(self) -> float:
+        """
+        Returns the distance of the path.
+        """
+        dist = 0
+        for i in range(len(self.path) - 1):
+            dist += Vector3.distance(self.path[i], self.path[i + 1])
+        return dist
+
     @abstractmethod
     def generate_path(self, packet: GameTickPacket) -> List[Vector3]:
         pass
