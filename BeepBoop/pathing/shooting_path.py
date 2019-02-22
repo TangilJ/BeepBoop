@@ -5,8 +5,8 @@ from rlbot.utils.structures.game_data_struct import GameTickPacket
 
 from .base_path import BasePath
 from bot_math.Vector3 import Vector3
-from utils import calculations
 import pathing.pathing as pathing
+from utils import calculations
 
 
 class ShootingPath(BasePath):
@@ -24,21 +24,30 @@ class ShootingPath(BasePath):
         else:
             # If the direction of the car and the desired ball direction are pointing to different sides of the line
             # between the car and the ball, use a quadratic bezier. Else use a cubic bezier.
-            # TODO: Implement above check. Using only quadratic bezier curves for now.
 
-            # Quadratic bezier curve
-            # Find intersection of the car direction and the desired ball direction to find intermediate point for bezier curve.
-            yaw = packet.game_cars[self.agent.index].physics.rotation.yaw
+            yaw: float = packet.game_cars[self.agent.index].physics.rotation.yaw
             car_dir: Vector3 = Vector3(math.cos(yaw), math.sin(yaw), 0)
-            desired_bal_dir: Vector3 = Vector3(self.agent.game_info.their_goal.center).modified(z=ball.z) - ball
-            intermediate: Vector3 = calculations.line_line_intersection(car, car + car_dir, ball, desired_bal_dir)
-            self.path = pathing.quadratic_bezier(car, intermediate, ball)
+            desired_ball_dir: Vector3 = Vector3(self.agent.game_info.their_goal.center).modified(z=ball.z) - ball
+            car_to_ball: Vector3 = ball - car
 
-            color = self.agent.renderer.red() if self.agent.team else self.agent.renderer.cyan()
-            self.agent.renderer.draw_line_3d(car, intermediate, color)
-            self.agent.renderer.draw_line_3d(intermediate, ball, color)
-            self.agent.renderer.draw_string_3d(car, 1, 1, "P0", color)
-            self.agent.renderer.draw_string_3d(intermediate, 1, 1, "P1", color)
-            self.agent.renderer.draw_string_3d(ball, 1, 1, "P2", color)
+            car_dir_right_of_line: bool = Vector3.dot_product(car_to_ball, car_dir.modified(y=-car_dir.y)) > 0
+            ball_dir_right_of_line: bool = Vector3.dot_product(car_to_ball, desired_ball_dir.modified(y=-desired_ball_dir.y)) > 0
+
+            if car_dir_right_of_line != ball_dir_right_of_line:
+                # Quadratic bezier curve
+                # Find intersection of the car direction and the desired ball direction for intermediate point of bezier curve.
+                intermediate: Vector3 = calculations.line_line_intersection(car, car + car_dir, ball, desired_ball_dir)
+                self.path = pathing.quadratic_bezier(car, intermediate, ball)
+
+                color = self.agent.renderer.red() if self.agent.team else self.agent.renderer.cyan()
+                self.agent.renderer.draw_line_3d(car, intermediate, color)
+                self.agent.renderer.draw_line_3d(intermediate, ball, color)
+                self.agent.renderer.draw_string_3d(car, 1, 1, "P0", color)
+                self.agent.renderer.draw_string_3d(intermediate, 1, 1, "P1", color)
+                self.agent.renderer.draw_string_3d(ball, 1, 1, "P2", color)
+            else:
+                # Cubic bezier
+                # TODO: Implement cubic bezier path. Using linear curve in place of cubic bezier for now.
+                self.path = pathing.linear_bezier(car, ball)
 
         return self.path
